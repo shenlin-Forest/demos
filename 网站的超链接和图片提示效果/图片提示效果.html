@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>文字提示</title>
+<script type="text/javascript" src="js/jquery.js"></script>
+<style type="text/css">
+	body{
+	margin:0;
+	padding:40px;
+	background:#fff;
+	font:100% Arial, Helvetica, sans-serif;
+	color:#555;
+	line-height:180%
+}
+img{border:none;}
+ul,li{
+	margin:0;
+	padding: 0;
+}
+li{
+	list-style: none;
+	float:left;
+	display: inline;
+	margin-right: 10px;
+	border:1px solid #AAAAAA;
+}
+/* tooltip */
+#tooltip{
+	position:absolute;
+	border:1px solid #ccc;
+	background:#333;
+	padding:2px;/*设了这个Padding,图就会往里面缩，padding是控制content和border之间的距离的，那为什么设置了一个值而下面留的比较多呢？下面就是靠文字撑起来的，由文字设置font决定到底多大*/
+	color:#fff;
+	display:none;
+}
+</style>
+
+<script type="text/javascript">
+	$(function(){
+		var x = 10;
+		var y = 20;
+		$("a.tooltip").mouseover(function(e){
+			//鼠标移入超链接的动作：创建<div>元素，把它追加到文档中，设置横纵坐标并显示
+			this.myTitle = this.title;
+			this.title = "";
+
+			var imgTitle = this.myTitle? "<br/>"+ this.myTitle : "";
+			var tooltip = "<div id='tooltip'><img src='" + this.href +"' alt='图片预览'/>"+ imgTitle+"<\/div>";
+			$("body").append(tooltip);
+			$("#tooltip").css({
+				"top":(e.pageY+y) + "px",
+				"left":(e.pageX+x) +'px'
+			}).show("fast");
+		}).mouseout(function(){
+			//鼠标移出超链接的动作：移除刚才创建的元素
+			this.title = this.myTitle;
+			$("#tooltip").remove();
+		}).mousemove(function(e){
+			$("#tooltip").css({
+				"top":(e.pageY+y)+"px",
+				"left":(e.pageX+x)+"px"
+			});
+		});
+	})
+</script>
+</head>
+<body>
+<h3>查看图片：</h3>
+    <ul>
+        <li><a href="images/haizei_1_bigger.jpg" class="tooltip" title="路飞桑&#10;动漫"><img src="images/haizei_1.jpg" alt="路飞"></a></li>
+        <li><a href="images/haizei_2_bigger.jpg" class="tooltip"  title="一群人呢"><img src="images/haizei_2.jpg" alt="一群"></a></li>
+        <li><a href="images/haizei_3_bigger.jpg" class="tooltip" title="再次路飞桑&#10;动漫"><img src="images/haizei_3.jpg" alt="路飞"></a></li>
+        <li><a href="images/haizei_4_bigger.jpg" class="tooltip"  title="大海啊"><img src="images/haizei_4.jpg" alt="海"></a></li>
+    </ul>
+
+</body>
+</html>

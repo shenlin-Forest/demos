@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>文字提示</title>
+<script type="text/javascript" src="js/jquery.js"></script>
+<style type="text/css">
+	body{
+	margin:0;
+	padding:40px;
+	background:#fff;
+	font:100% Arial, Helvetica, sans-serif;
+	color:#555;
+	line-height:180%
+}
+p{
+	clear:both;
+	margin:0;
+	padding:.5em 0;
+}
+/* tooltip */
+#tooltip{
+	position:absolute;
+	border:1px solid #333;
+	background:#f7f5d1;
+	padding:1px;
+	color:#333;
+	display:block;
+}
+</style>
+
+<script type="text/javascript">
+	$(function(){
+		var x = 10;
+		var y = 20;
+		$("a.tooltip").mouseover(function(e){
+			//鼠标移入超链接的动作：创建<div>元素，把它追加到文档中，设置横纵坐标并显示
+			this.myTitle = this.title;
+			this.title = "";
+
+			var tooltip = "<div id='tooltip'>"+this.myTitle+"<\/div>";
+			$("body").append(tooltip);
+			$("#tooltip").css({
+				"top":(e.pageY+y) + "px",
+				"left":(e.pageX+x) +'px'
+			}).show("fast");
+		}).mouseout(function(){
+			//鼠标移出超链接的动作：移除刚才创建的元素
+			this.title = this.myTitle;
+			$("#tooltip").remove();
+		}).mousemove(function(e){
+			$("#tooltip").css({
+				"top":(e.pageY+y)+"px",
+				"left":(e.pageX+x)+"px"
+			});
+		});
+	})
+</script>
+</head>
+<body>
+<p><a href="#" class="tooltip" title="点击后即可访问百度的中文网站&#10;快点击啊！">百度网站</a></p>
+<p><a href="#" class="tooltip" title="点击后即可访问聚美优品&#10;去逛逛吧~">聚美优品</a></p>
+
+</body>
+</html>
