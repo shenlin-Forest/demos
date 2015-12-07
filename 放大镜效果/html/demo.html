@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>放大镜效果</title>
+<style type="text/css">
+
+#div1 { width: 200px; height: 200px; padding: 5px; border: 1px solid #ccc; position: relative; }
+
+#div1 .small_pic { width: 200px; height: 200px; background: #eee; position: relative; }
+#div1 .float_layer { width: 50px; height: 50px; border: 1px solid #000; background: #fff; filter: alpha(opacity: 30); opacity: 0.3; position: absolute; top: 0; left: 0; display:none; }
+#div1 .mark {width:100%; height:100%; position:absolute; z-index:2; left:0px; top:0px; background:red; filter:alpha(opacity:0); opacity:0;}
+#div1 .big_pic { position: absolute; top: -1px; left: 215px; width:250px; height:250px; overflow:hidden; border:2px solid #CCC; display:block; }
+#div1 .big_pic img { position:absolute; top: -30px; left: -80px; }
+/*对于右边大图，它和左边小图的关系是通过小图可移动的比例关联的，而右边大图的显示出来的部分是通过在大图外面的这个div中，设定大图的绝对位置来完成的其实就是有个大图，大图外面套了个DIV，让大图在这个DIV中定位置，而多出DIV的部分截掉，就成了大图的局部显示。这里是刷新后，鼠标还没移到小图上，大图所显示的部分*/
+</style>
+<script type="text/javascript">
+//1.做到当鼠标移到图片上时，在小图上显示浮动层、右边显示大图；鼠标移出时，两个同时消失
+//2.当鼠标移动时，让浮动层跟着鼠标走：且鼠标在浮动层的中间，同时保证浮动层不能移出小图
+//3.右面大图
+function getByClass(oParent,sClass)
+{
+	var aEle = oParent.getElementsByTagName('*');
+	var aTmp=[];//class是可以重复的，所以用数组来保存
+
+	for(var i=0;i<aEle.length;i++)
+	{
+		if(aEle[i].className == sClass)
+		{
+			aTmp.push(aEle[i]);
+		}
+	}
+	return aTmp;
+}
+
+window.onload = function()
+{
+	var oDiv = document.getElementById('div1');
+	var oMark = getByClass(oDiv,'mark')[0];//返回的是一个数组，返回第一个
+	var oFloat = getByClass(oDiv,'float_layer')[0];
+	var oBig = getByClass(oDiv,'big_pic')[0];
+	var oSmall = getByClass(oDiv,'small_pic')[0];
+	var oImg = oBig.getElementsByTagName('img')[0];
+
+	oMark.onmouseover = function()
+	{
+		oFloat.style.display = 'block';
+		oBig.style.display = 'block';
+	}
+	oMark.onmouseout = function()
+	{
+		oFloat.style.display = 'none';
+		oBig.style.display = 'none';
+	}
+
+	oMark.onmousemove = function(ev)
+	{
+		var oEvent = ev || event;
+
+		var l = oEvent.clientX - oDiv.offsetLeft - oSmall.offsetLeft-oFloat.offsetWidth/2;//让悬浮图层的中心点跟着鼠标走，如果不加-oFloat.offsetWidth/2，则是悬浮图层的顶端跟着鼠标走
+		var t = oEvent.clientY - oDiv.offsetTop  - oSmall.offsetTop- oFloat.offsetHeight/2;
+
+		if(l<0)
+		{
+			l=0;
+			//左边要出去的时候，左边设为0，拉回来
+		}
+
+		else if(l>oMark.offsetWidth - oFloat.offsetWidth)
+		{
+			l = oMark.offsetWidth - oFloat.offsetWidth;
+		}//左边要出去的时候。拉回来
+
+		if(t<0)
+		{
+			t=0;
+			//上边要出去的时候，右边设为0，拉回来
+		}
+		else if(t>oMark.offsetHeight - oFloat.offsetHeight)
+		{
+			t = oMark.offsetHeight - oFloat.offsetHeight;
+		}//下边要出去的时候，拉回来
+		
+
+		oFloat.style.left = l + 'px';
+		oFloat.style.top = t + 'px';
+
+		//改大图:有bug
+		var percentX = l/(oMark.offsetWidth-oFloat.offsetWidth);
+		var percentY = t/(oMark.offsetHeight-oFloat.offsetHeight);
+		// alert(typeof oImg);
+		oImg.style.left = - percentX  *(oImg.offsetWidth-oBig.offsetWidth) + 'px';
+		oImg.style.top = - percentY * (oImg.offsetHeight-oBig.offsetHeight) + 'px';
+
+		// oImg.style.left=-percentX*(oImg.offsetWidth-oBig.offsetWidth)+'px';
+		// oImg.style.top=-percentY*(oImg.offsetHeight-oBig.offsetHeight)+'px';
+		
+	}
+
+}
+
+</script>
+</head>
+
+<body>
+
+<div id="div1">
+
+    <div class="small_pic">
+    	<!-- mark是在小图片上完全附了一层“遮罩层” -->
+		<span class="mark"></span>
+		<!-- float_layer是移入鼠标时，浮动区域 -->
+        <span class="float_layer"></span>
+        <img src="images/smallpic.png" alt="- 放大镜图片一" >
+        <!-- longdesc 属性规定指向图像描述信息页面的 URL -->
+    </div>
+
+    <div class="big_pic">
+		<img src="images/bigpic.png" alt="- 放大镜图片二"  />
+	</div>
+
+</div>
+
+</body>
+</html>
