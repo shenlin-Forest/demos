@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=GBK2312"/>
+	<title>碰撞运动</title>
+	<style type="text/css">
+	#div1{width:100px;height: 100px;background-color: red;position: absolute;cursor: pointer;}
+	</style>
+	<script type="text/javascript">
+	window.onload = function()
+	{
+		var oDiv = document.getElementById('div1');
+
+		var lastX = 0;
+		var lastY = 0;
+
+		oDiv.onmousedown = function(ev)
+		{
+			var oEvent = ev||event;
+
+			var disX = oEvent.clientX - oDiv.offsetLeft;
+			var disY = oEvent.clientY - oDiv.offsetTop;
+
+			document.onmousemove = function(ev)
+			{
+				var oEvent = ev||event;
+				var scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+				var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+				var l = oEvent.clientX + scrollLeft - disX;
+				var t = oEvent.clientY + scrollTop - disY;
+
+				//做一个判断，看是否会被拖出可视区
+				if(l < 0){
+					l = 0;
+				}
+				else if(l > document.documentElement.clientWidth- oDiv.offsetWidth){
+					l = document.documentElement.clientWidth - oDiv.offsetWidth;
+				}
+
+				if(t < 0 ){
+					t = 0;
+				}
+				else if(t > document.documentElement.clientHeight-oDiv.offsetHeight){
+					t = document.documentElement.clientHeight-oDiv.offsetHeight;
+				}
+
+				oDiv.style.left = l +'px';
+				oDiv.style.top = t +'px';
+
+				// //增加轨迹：“小黑点”
+				// var oBox = document.createElement('div');
+
+				// oBox.style.left = l +'px';
+				// oBox.style.top = t + 'px';
+				// document.body.appendChild(oBox);
+				iSpeedX = l-lastX;
+				//当前一瞬间的速度：后一个点的横坐标-前一个点的横坐标
+				iSpeedY = t-lastY;
+
+				lastX = l;
+				lastY = t;//更新：当前的在下一次中即为前一个
+			}
+
+			document.onmouseup = function()
+			{
+				document.onmousemove = null;
+				document.onmouseup = null;
+
+				startMove();
+			}
+
+			clearInterval(timer);//当鼠标按下去的时候，关闭定时器，这样就不会按着鼠标时，方块还往下掉
+		}
+	}
+
+
+	var timer = null;
+
+	var iSpeedX = 8;
+	var iSpeedY = 6;
+
+	function startMove()
+	{
+		clearInterval(timer);
+		timer = setInterval(function(){
+			var oDiv = document.getElementById('div1');
+			iSpeedY+=3;//带重力的碰撞运动，纵向速度是越来越大的
+
+			var l = oDiv.offsetLeft + iSpeedX;
+			var t = oDiv.offsetTop + iSpeedY;
+
+			if(t>=document.documentElement.clientHeight-oDiv.offsetHeight)
+			{
+				iSpeedY *= -0.8;
+				//纵向撞墙时，纵向速度反向,速度*=-1修改为*=-0.8，表示速度在不断减小，所以越跳越低
+				iSpeedX *= 0.8;//横向速度方向不变，大小减小
+				t = document.documentElement.clientHeight-oDiv.offsetHeight;
+			}
+			else if(t<=0)
+			{
+				iSpeedY *= -1;//速度反向
+				iSpeedX *= 0.8;
+				t=0;
+			}
+
+			if(l>=document.documentElement.clientWidth - oDiv.offsetWidth)
+			{
+				iSpeedX *= -0.8;
+				l = document.documentElement.clientWidth - oDiv.offsetWidth;
+			}
+			else if(l<=0)
+			{
+				iSpeedX *= -0.8;
+				l=0;
+			}
+
+			if(Math.abs(iSpeedX)<1)
+			{
+				iSpeedX = 0;//如果横向速度已经很小了，就将它设为零，否则如果出现小数时，向下取整速度就减1，会有滑动现象
+			}
+			if(Math.abs(iSpeedY)<1)
+			{
+				iSpeedY = 0;
+			}
+
+			//碰撞运动的终止条件：
+			//判断然后关闭定时器:当横向和总想速度等于0时，并且碰到了底端时，关闭定时器，必须有后面这个碰到底端，否则可能在空中最高的时候速度为0就停下来
+			if(iSpeedX==0 && iSpeedY==0 && t==document.documentElement.clientHeight-oDiv.offsetHeight)
+			{
+				clearInterval(timer);
+			}
+
+			oDiv.style.left = l +'px';
+			oDiv.style.top = t + 'px';
+		},30);
+	}
+	</script>
+</head>
+<body>
+<input type="button" value="开始" onclick="startMove();"/>
+<div id="div1"></div>
+</body>
+</html>
