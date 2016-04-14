@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>图片的无缝滚动</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/javascript" src="js/move.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+<div id="playimages" class='play'>
+	<div class="prev"></div>
+	<div class="next"></div>
+
+	
+	<div class="text">加载图片说明</div>
+	<div id="back">
+		<div id="btn">
+			<a class="active" href="javascript:;"></a>
+			<a class="index" href="javascript:;"></a>
+			<a class="index" href="javascript:;"></a>
+			<a class="index" href="javascript:;"></a>
+			<a class="index" href="javascript:;"></a>
+			<a class="index" href="javascript:;"></a>
+		</div>	
+	</div>
+	<div class="length">计算图片数量</div>
+	<div class="bg"></div>
+	
+
+	<a class="mark_left" href="javascript:;"></a>
+	<a class="mark_right" href="javascript:;"></a>
+
+	<div class="small_pic">
+	<ul style:'width:280px;'>
+		<li style="filter:100;opacity:1;z-index:1;"><img src="images/1.jpg"/></li>
+		<li><img src="images/2.jpg"/></li>
+		<li><img src="images/3.jpg"/></li>
+		<li><img src="images/4.jpg"/></li>
+		<li><img src="images/5.jpg"/></li>
+		<li><img src="images/6.jpg"/></li>
+		<!-- 图片可以随便加，只要保证和总的div尺寸相同即可，这里是280*320px -->
+	</ul>
+	</div>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绘制椭圆</title>
+</head>
+<body>
+	<canvas id = 'canvas' style="border:1px solid black;display:block;margin:50px auto;">
+		当前浏览器不支持canvas，请您更换浏览器
+	</canvas>
+
+	<script type="text/javascript">
+	    window.onload = function(){
+	    	var canvas = document.getElementById('canvas');
+	    	var context = canvas.getContext('2d');
+
+	    	canvas.width = 600;
+	    	canvas.height = 600;
+
+	    	//画颜文字君
+	    	function drawYan(){
+	    		    	//根据试验，只有chrome支持ellipse，safari Opera FF都不支持
+	    		    	if(context.ellipse){
+
+	    		    		context.clearRect(0,0,600,600);
+
+	    		    		var oDate = new Date();
+	    		    		var sec = oDate.getSeconds();//获取秒
+
+
+	    		    		//脸轮廓
+	    		    		context.save();
+	    		    		context.translate(200,200);
+
+	    		    		context.beginPath();
+
+	    		    		context.ellipse(0,0,150,138,0,Math.PI*2);
+
+	    		    		context.closePath();
+
+	    		    		context.lineWidth = 6;
+	    		    		context.strokeStyle = 'rgba(120,55,35,1)';
+	    		    		context.stroke();
+
+	    		    		context.restore();
+
+	    		    		//眼睛右
+	    		    		context.save();
+	    		    		context.translate(200,200);
+	    		    		context.beginPath();
+
+	    		    		if(sec %2==0){
+	    					//咪眼睛
+	    		    		context.moveTo(38,0);
+	    		    		context.lineTo(72,0);
+	    		    		context.lineWidth=6;
+	    		    		context.lineCap = 'round';
+	    		    		context.strokeStyle = 'rgba(120,55,35,1)';
+	    		    		context.stroke();
+
+	    					//小草
+	    					context.beginPath();
+	    					context.moveTo(0,-138);
+	    					context.lineTo(0,-160);
+	    					context.closePath();
+
+	    					context.lineWidth = 3;
+	    					context.strokeStyle ='rgba(120,55,35,1)';
+	    					context.stroke();
+
+	    					//叶子右
+	    					context.beginPath();
+	    					context.ellipse(20,-160,20,14,-20/180*Math.PI,0,Math.PI*2);
+	    					context.closePath();
+	    					context.lineWidth = 3;
+	    					context.fillStyle = 'rgba(130,211,85,1)';
+	    					context.strokeStyle ='rgba(120,55,35,1)';
+	    					context.fill();
+	    					context.stroke();
+
+
+	    					//叶子左
+
+	    					context.beginPath();
+	    					context.ellipse(-20,-160,20,14,20/180*Math.PI,0,Math.PI*2);
+	    					context.closePath();
+	    					context.lineWidth = 3;
+	    					context.fillStyle = 'rgba(130,211,85,1)';
+	    					context.strokeStyle ='rgba(120,55,35,1)';
+	    					context.fill();
+	    					context.stroke();
+
+	    		    		}
+
+	    		    		else{
+	    		    		//圆眼睛
+	    		    			context.moveTo(55,0);
+	    		    			context.arc(55,0,17,0,Math.PI*2);
+	    						context.fillStyle ='rgba(120,55,35,1)';
+	    		    			context.fill();	
+
+    	    					//小草
+	    					context.beginPath();
+	    					context.moveTo(0,-138);
+	    					context.lineTo(0,-160);
+	    					context.closePath();
+
+	    					context.lineWidth = 3;
+	    					context.strokeStyle ='rgba(120,55,35,1)';
+	    					context.stroke();
+
+	    					//叶子右
+	    					context.ellipse(20,-160,20,12,3,0,Math.PI*2);
+	    					context.lineWidth = 3;
+	    					context.fillStyle = 'rgba(130,211,85,1)';
+	    					context.strokeStyle ='rgba(120,55,35,1)';
+	    					context.fill();
+	    					context.stroke();
+
+
+	    					//叶子左
+
+	    					context.beginPath();
+	    					context.ellipse(-20,-160,20,12,-3,0,Math.PI*2);
+	    					context.lineWidth = 3;
+	    					context.fillStyle = 'rgba(130,211,85,1)';
+	    					context.strokeStyle ='rgba(120,55,35,1)';
+	    					context.fill();
+	    					context.stroke();	
+	    		    		}
+	    		    		
+	    		    		context.closePath();
+	    		    		context.restore();
+
+	    		    		//眼睛左
+	    		    		context.save();
+	    		    		context.translate(200,200);
+	    		    		context.beginPath();
+
+	    		    		context.moveTo(55,0);
+	    		    		context.arc(-55,0,17,0,Math.PI*2);
+
+	    		    		context.fillStyle ='rgba(120,55,35,1)';
+	    		    		context.fill();
+
+	    		    		context.closePath();
+	    		    		context.restore();
+
+	    		    		//眉毛右
+	    		    		context.save();
+	    		    		context.translate(200,200);
+	    		    		context.beginPath();
+
+	    		    		context.moveTo(40,-23);
+	    		    		context.lineTo(60,-30);
+
+	    		    		context.lineWidth = 5;
+	    		    		context.strokeStyle = 'rgba(101,40,27,1)';
+	    		    		context.stroke();
+
+	    		    		context.closePath();
+	    		    		context.restore();
+
+
+	    		    		//眉毛左
+	    		    		context.save();
+	    		    		context.translate(200,200);
+	    		    		context.beginPath();
+
+	    		    		context.moveTo(-40,-23);
+	    		    		context.lineTo(-60,-30);
+	    		    		
+	    		    		context.lineWidth = 5;
+	    		    		context.strokeStyle = 'rgba(101,40,27,1)';
+	    		    		context.stroke();
+
+	    		    		context.closePath();
+	    		    		context.restore();
+
+
+	    		    		//嘴巴右
+	    		    		context.save();
+	    		    		context.translate(200,200);
+	    		    		context.beginPath();
+
+	    		    		context.arc(12,7,12,1.9*Math.PI,Math.PI*1.1);
+	    		    		
+	    		    		context.lineWidth = 6;
+	    		    		context.lineCap = 'round';
+	    		    		context.strokeStyle = 'rgba(101,40,27,1)';
+	    		    		context.stroke();
+
+	    		    		context.closePath();
+	    		    		context.restore();
+
+	    		    		//嘴巴左
+	    		    		context.save();
+	    		    		context.translate(200,200);
+	    		    		context.beginPath();
+
+	    		    		context.arc(-12,7,13,0,Math.PI*1.3);
+	    		    	
+	    		    		context.lineWidth = 5;
+	    		    		context.lineCap = 'round';
+	    		    		context.strokeStyle = 'rgba(101,40,27,1)';
+	    		    		context.stroke();
+
+	    		    		context.closePath();
+	    		    		context.restore();
+
+	    		    		//脸颊右
+	    		    		context.save();
+	    		    		context.translate(200,200);
+	    		    		context.beginPath();
+
+	    		    		context.ellipse(75,27,15,11,3,0,Math.PI*2);
+
+	    		    		context.fillStyle = 'rgba(253,201,177,0.8)';
+	    		    		context.fill();
+
+	    		    		context.closePath();
+	    		    		context.restore();
+
+	    		    		//脸颊左
+	    		    		context.save();
+	    		    		context.translate(200,200);
+	    		    		context.beginPath();
+
+	    		    		context.ellipse(-75,27,15,11,-3,0,Math.PI*2);
+	    		    		context.fillStyle = 'rgba(253,201,177,0.8)';
+
+	    		    		context.fill();
+
+	    		    		context.closePath();
+	    		    		context.restore();
+
+	    		    	}
+	    		    	else{
+	    		    		alert('不支持椭圆绘制');
+	    		    	}
+	    		    	
+	    		    }
+
+	    		    drawYan();
+
+	    		    setInterval(drawYan,1000);
+	    	}
+
+
+
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>用canvas绘制时钟</title>
+</head>
+<body>
+	<canvas width="1000" height="1000" style="border:1px solid black;display:block;margin:50px auto;" id="clockCanvas">
+
+	      您的浏览器版本太低，不支持显示时钟的canvas标签
+
+	</canvas>
+
+	      <script>
+
+	              var clockID = document.getElementById("clockCanvas");
+
+	              var clock = clockID.getContext("2d");
+
+	             
+
+	              /*步骤：画钟表整体思路步骤分析
+
+	              1、使用canvas创建画布，并创建一个2d对象
+
+	              2、使用function方法做计算
+
+	              3、实例化Date()对象，通过该对象获取系统当前的时、分、秒
+
+	              4、通过计算将24小时制转化为12小时制
+
+	              5、画表盘
+
+	              6、画刻度盘
+
+	              7、画指针:时钟、分针、秒针
+
+	              8、使用setInterval(fun, time);设置动态
+
+	              */
+
+	             
+
+	              //画时钟的方法
+
+	              function drawClock(id)
+
+	              {
+
+	                     //每次清空画布
+						 //如果不清空的话，每次的更新就会显示在屏幕上
+
+	                     clock.clearRect(0,0,1000,1000);
+
+	                     //获取系统当前时间（时 、分 、秒）
+
+	                     var oDate = new Date();  //实例化一个当前时间的对象，通过该对象获取系统当前时间
+
+	                     var sec = oDate.getSeconds();  //秒
+
+	                     var mins = oDate.getMinutes();  //分
+
+	                     var hours = oDate.getHours();    //时
+
+	 
+
+	                     //绘制文字，显示系统当前时间：
+
+	                     clock.save();
+
+	                     clock.translate(0,500);
+
+	                     clock.fillStyle = "#783723";
+
+	                     clock.strokeStyle = "#eee";
+
+	                     clock.font = "40px 微软雅黑";
+
+	                     clock.strokeText("系统当前时间为："+hours+"时"+mins+"分"+sec+"秒", 100, 100);
+						//相对于（0,500）
+
+	                     clock.fillText("系统当前时间为："+hours+"时"+mins+"分"+sec+"秒", 100, 100);
+
+	                     clock.restore();
+
+	                    
+
+	                     //计算：满60分加一小时
+
+	                     hours = hours + mins/60;//？？？为什么要这样呢?
+
+	                     //计算：将24小时制转化为12小时制
+
+	                     hours = hours>12?hours-12:hours;
+
+	                    
+
+	                     //画表盘
+
+	                     clock.beginPath();
+
+	                     clock.lineWidth = 10;
+
+	                     clock.strokeStyle = "#783723";
+
+	                     clock.arc(400,300, 200, 0, Math.PI * 2, false);
+
+	                     clock.stroke();
+
+	                     clock.closePath();
+
+	                    
+
+	                     //画刻度盘
+
+	                     //时刻度
+
+	                     for(var i = 0; i < 12; i++)
+
+	                     {
+
+	                            clock.save();
+
+	                            //将起始点定位到圆心
+
+	                            clock.translate(400,300);
+
+	                            //设置刻度的样式
+
+	                            clock.lineWidth = 7;
+
+	                            clock.strokeStyle = "#83d456";
+
+	                            //设置旋转角度
+
+	                            clock.rotate(i*30*Math.PI/180);
+
+	                           
+
+	                            clock.beginPath();
+
+	                            clock.moveTo(0, -170);
+
+	                            clock.lineTo(0, -190);
+								//变盘的半径是200，这里刻度是从170到190                     
+
+	                           
+	                            //画刻度线
+
+	                            clock.stroke();
+
+	                            clock.restore();
+
+	                     }
+
+	                    
+
+	                     //分刻度
+
+	                     for(var j = 0; j<60; j++)
+
+	                     {
+
+	                            clock.save();
+
+	                            //设置起始点坐标
+
+	                            clock.translate(400,300);
+
+	                            clock.lineWidth = 5;
+
+	                            clock.strokeStyle = "#83d456";
+
+	                            //设置旋转角度
+
+	                            clock.rotate(j*6*Math.PI/180);
+
+	                            clock.beginPath();
+
+	                            clock.moveTo(0, -180);
+
+	                            clock.lineTo(0, -190);
+
+	                            clock.closePath();
+
+	                            clock.stroke();
+
+	                            clock.restore();
+
+	                     }
+
+	                    
+
+	                     //时针
+
+	                     clock.save();
+
+	                     clock.translate(400,300);
+
+	                     clock.lineWidth = 7;
+
+	                     clock.strokeStyle = "#000000";
+
+	                     //设置小时的旋转角度，每转一次走30°
+
+	                     clock.rotate(hours*30*Math.PI/180);                
+
+	                     clock.beginPath();
+
+	                     clock.moveTo(0,15);
+
+	                     clock.lineTo(0,-120);
+
+	                     clock.closePath();
+
+	                     clock.stroke();
+
+	                     clock.restore();
+
+	                    
+
+	                     //分针
+
+	                     clock.save();
+
+	                     clock.translate(400, 300);
+
+	                     clock.lineWidth = 5;
+
+	                     clock.strokeStyle = "#000";
+
+						 clock.rotate(mins*6*Math.PI/180);
+
+	                     clock.beginPath();
+
+	                     clock.moveTo(0,20);
+
+	                     clock.lineTo(0,-160);
+
+	                     clock.closePath();
+
+		                 clock.stroke();
+
+	                     clock.restore();
+
+	                    
+
+	                     //秒针
+
+	                     clock.save();
+
+	                     clock.translate(400,300);
+
+	                     clock.lineWidth = 3;
+
+	                     clock.strokeStyle = "#f00";
+
+		                 clock.rotate(sec*6*Math.PI/180);
+
+	                     clock.beginPath();
+
+	                     clock.moveTo(0, 25);
+
+	                     clock.lineTo(0,-165);
+
+	                     clock.closePath();
+
+		                 clock.stroke();
+
+	                    
+
+	                     //秒针圆心处一个小圈
+
+	                     clock.fillStyle = "#999";
+
+	                     clock.strokeStyle = "#f00";
+
+	                     clock.beginPath();
+
+	                     clock.arc(0,0,6,0,Math.PI*2,false);
+
+	                     clock.closePath();
+
+	                     clock.fill();
+
+	                     clock.stroke();
+
+	                    
+
+	                     //秒针顶部一个小圈
+
+	                     clock.beginPath();
+
+	                     clock.arc(0,-140,6,0,Math.PI*2,false);
+
+	                     clock.closePath();
+
+	                     clock.fill();
+
+	                     clock.stroke();
+
+	                     clock.restore();
+
+
+						//钟摆
+						clock.save();
+						clock.translate(400,500);
+						var i = sec%2;
+						if(i==0)
+						{
+							clock.rotate(20*Math.PI/180);
+						}
+						else{
+							clock.rotate(-20*Math.PI/180);
+						}
+						clock.lineWidth = 5;
+						clock.beginPath();
+						clock.moveTo(0,0);
+						clock.lineTo(0,200);
+						clock.closePath();
+						clock.strokeStyle="#783723";
+						clock.stroke();
+
+
+						//钟摆的摆锤
+						clock.beginPath();
+						clock.arc(0,250,50,0,Math.PI*2,true);
+						clock.closePath();
+						
+						//径向渐变
+						var grd = clock.createRadialGradient(0,250,0,0,250,50);
+						grd.addColorStop(0.0,'#C87B18');
+						grd.addColorStop(1.0,'#783723');
+						clock.fillStyle=grd;
+						clock.strokeStyle = '#000';
+						clock.lineWidth=2;
+						clock.fill();
+						clock.stroke();
+
+						clock.restore();
+
+
+
+	              }
+
+	              drawClock();
+				//要在setInterval前先调用一次
+				//因为setInterval()定义的是在1s之后才开始执行这个函数，刚加载完会有1s的初始化状态
+
+	              setInterval(drawClock, 1000);  //是表针根据系统当前时间转动起来
+
+	       </script>
+</body>
+</html> 
