@@ -1,0 +1,104 @@
+{
+	margin:0;
+	padding: 0;
+}
+
+.whole{
+	border:1px black solid;
+	padding: 20px;
+}
+
+#content{
+	/*这个高度怎么设啊？算出来？*/
+	/*设置最小高度为右栏高度，这样能按中间栏和右栏最高高度显示*/
+	/*height: 535px;*/
+	min-height: 535px;
+	border: 1px #999 solid;
+	padding: 20px;
+	font-size:14px;
+	background-color: #eee;
+
+	position: relative;
+}
+
+.left{
+	width:200px;
+	height:120px;
+	padding:20px;
+	border: 1px #999 solid;
+	background-color: #fff;
+
+	position: absolute;
+	left:20px;
+	top:20px;
+}
+
+.middle{
+	/*不设高度*/
+/*	height: 420px;*/
+	border:1px #999 solid;
+	padding: 20px;
+	margin: 0 140px 0 260px;
+	background-color: #fff;
+}
+
+.right{
+	height: 490px;
+	width: 80px;
+	padding: 20px;
+	border: 1px #999 solid;
+	background-color: #fff;
+
+	position: absolute;
+	right:20px;
+	top:20px;
+}
+
+.left .img{
+	width:80px;
+	height:80px;
+	border:1px #999 solid;
+
+	position: absolute;
+	left:20px;
+	top:20px;
+}
+
+.right .img{
+	width:80px;
+	height:80px;
+	border: 1px #999 solid;
+
+	float:left;
+	clear:both;
+	margin-bottom: 20px;
+}
+
+/*.right .img_last{
+	width:80px;
+	height:80px;
+	border: 1px #999 solid;
+
+	position: absolute;
+	right:20px;
+	bottom: 20px;
+}
+*/
+#desp{
+	width:100px;
+	height: 80px;
+	/*border:1px #999 solid;*/
+
+	position: absolute;
+	top:20px;
+	right:20px;
+	font-size: 16px;
+}
+
+
+
+
+
+
+
+
