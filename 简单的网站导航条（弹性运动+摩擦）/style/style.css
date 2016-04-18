@@ -1,0 +1,33 @@
+*{
+	margin:0;
+	padding: 0;
+}
+ul{
+	width:400px;
+	height: 30px;
+	position: relative;
+	margin:100px auto 0;
+}
+li{
+	list-style: none;
+	float: left;
+	width:98px;
+	height:28px;
+	line-height: 28px;
+	border: 1px solid #ccc;
+	text-align: center;
+	z-index: 2;
+	position:relative;
+	cursor: pointer;
+}
+.bg{
+	width:100px;
+	height: 30px;
+	overflow: hidden;
+	background-color:pink;
+	border:none;
+	position: absolute;
+	top:0px;
+	left:0;
+	z-index: 1;
+}
