@@ -1,0 +1,28 @@
+*{ 
+	margin:0; 
+	padding:0;
+}
+li{ 
+	list-style:none;
+}
+
+#ul1{ 
+	width:860px; 
+	height:500px;
+	/*border:1px solid black;*/
+}
+#ul1 li{ 
+	width:140px;
+	height:220px;
+	float:left; 
+	overflow:hidden; 
+	margin:16px;}
+
+a { 
+	margin:16px;
+}
+
+#div1{
+	margin-top:20px;
+	margin-left: 260px;
+}
