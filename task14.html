@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE 任务14 wdss小组</title>
+</head>
+<body>
+<h3>污染城市列表</h3>
+<ul id="aqi-list">
+    <!--
+        <li>第一名：福州（样例），10</li>
+          <li>第二名：福州（样例），10</li> -->
+</ul>
+
+<script type="text/javascript">
+
+    var aqiData = [
+        ["北京", 90],
+        ["上海", 50],
+        ["福州", 10],
+        ["广州", 50],
+        ["成都", 90],
+        ["西安", 100]
+    ];
+    (function () {
+        /*
+         在注释下方编写代码
+         遍历读取aqiData中各个城市的数据
+         将空气质量指数大于60的城市显示到aqi-list的列表中
+         */
+        //选出空气质量指数大于60的城市
+        
+        //<方案一>简单实现
+        var aqiList = document.getElementById('aqi-list');
+        var chNum = ['一','二','三','四','五','六','七','八','九','十'];
+        var content ='';
+
+        var aqiNew =[];
+        for(var i = 0;i<aqiData.length;i++){
+            if(aqiData[i][1]>60){
+                aqiNew.push(aqiData[i]);
+            }
+        }
+        aqiNew.sort(function(a,b){
+            return b[1]-a[1];
+        });
+
+        for(var i=0;i<aqiNew.length;i++){
+            aqiList.innerHTML += '<li>第'+chNum[i]+'名：'+aqiNew[i][0]+','+aqiNew[i][1]+'</li>';
+        }
+
+        //<方案二> 利用Array的方法：filter(),forEach()，并且是链式调用,同时考虑到DOM对页面性能的影响，这里一次性改变元素的DOM结构
+        var aqiList = document.getElementById('aqi-list');
+        var chNum = ['一','二','三','四','五','六','七','八','九','十'];
+
+        aqiData.filter(function(element)
+                 {
+                    return (element[1]>60)
+                })
+               .sort(function(a,b){
+                    return b[1]-a[1];
+               })
+               .forEach(function(element,index){
+                    content += '<li>第'+chNum[index]+'名：'+element[0]+','+element[1]+'</li>';
+               })
+        aqiList.innerHTML = content;
+    })();
+
+</script>
+</body>
+</body>
+</html>
