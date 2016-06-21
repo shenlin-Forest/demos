@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=GBK2312"/>
+	<title>无缝滚动</title>
+	<style type="text/css">
+	*{margin:0;padding:0;}
+	#div1 {position: relative;border: 1px solid pink;width:680px;height: 120px;margin: 100px auto; overflow: hidden;}
+	#div1 .prev{width:60px;height: 60px;background:url(images/btn.gif) no-repeat 0 0;position: absolute;top:20px;left:20px;z-index: 3001;}
+	#div1 .next{width:60px;height: 60px;background: url(images/btn.gif) no-repeat 0 -60px;position: absolute;top:20px;right: 20px;z-index: 3001;}	
+	#div1 ul{position: absolute;}
+	#div1 ul li{list-style:none;float:left;width:150px;height:100px;padding: 10px;z-index: 0;}
+	/*一张图片是150+10*2=170px;*/
+	</style>
+	<script type="text/javascript">
+	function getByClass(oParent,sClass)
+	{
+		var aEle = document.getElementsByTagName('*');
+		var aResult=[];
+
+		for(var i= 0;i<aEle.length;i++)
+		{
+			if(aEle[i].className==sClass)
+			{
+				aResult.push(aEle[i]);
+			}
+		}
+		return aResult;
+	}
+
+	window.onload = function()
+	{
+		var oDiv = document.getElementById('div1');
+		var oUl = oDiv.getElementsByTagName('ul')[0];
+		var aLi = oUl.getElementsByTagName('li');
+		var iSpeed = 3;
+		var timer = null;
+		var oBtnPrev = getByClass(oDiv,'prev')[0];
+		var oBtnNext = getByClass(oDiv,'next')[0];
+		// var oIn;
+
+		oUl.innerHTML += oUl.innerHTML;
+		//复制了一次，折行是因为宽度不够
+		oUl.style.width = aLi[0].offsetWidth * aLi.length +'px';
+		//为了让宽度能够自适应,根据图片个数变化
+
+		function fnMove()
+		{
+			if(oUl.offsetLeft < -oUl.offsetWidth/2)
+			{
+				oUl.style.left=0;
+			}
+			//向左滚动时，小于一半就把它扯回来
+			else if(oUl.offsetLeft > 0)
+			{
+				oUl.style.left = -oUl.offsetWidth/2+'px';
+			}
+			oUl.style.left = oUl.offsetLeft + iSpeed + 'px';
+		}
+
+		timer = setInterval(fnMove,30);
+
+		oBtnPrev.onclick = function()
+		{
+			iSpeed = -3;
+		
+			// alert(1);//可以正常进入这个事件
+		};
+		oBtnNext.onclick = function()
+		{
+			iSpeed = 3;
+		};
+		oUl.onmouseover = function()
+		{
+			clearInterval(timer);
+		}
+		oUl.onmouseout = function()
+		{
+			timer = setInterval(fnMove,30);
+		}
+	}
+	</script>
+
+</head>
+<body>
+<div id="div1">
+	<div class="prev"></div>
+	<div class="next"></div>
+	<ul>
+		<li><img src="images/1.jpg"/></li>
+		<li><img src="images/2.jpg"/></li>
+		<li><img src="images/3.jpg"/></li>
+		<li><img src="images/4.jpg"/></li>
+	</ul>
+</div>
+</body>
+</html>
